@@ -1,0 +1,24 @@
+Package: DataExplorer
+Title: Data Explorer
+Version: 0.2.3
+Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
+Description: Data exploration process for data analysis and model building, so
+    that users could focus on understanding data and extracting insights. The
+    package automatically scans through each variable and does data profiling.
+    Typical graphical techniques will be performed for both discrete and
+    continuous features.
+Depends: R (>= 3.2.0)
+Imports: data.table (>= 1.9.4), reshape2 (>= 1.4.1), ggplot2 (>=
+        1.0.1), scales (>= 0.3.0), gridExtra (>= 0.9.1), rmarkdown (>=
+        0.9.5), stats, utils
+License: GPL-2
+LazyData: true
+URL: https://github.com/boxuancui/DataExplorer
+BugReports: https://github.com/boxuancui/DataExplorer/issues
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-03-01 15:27:01 UTC; bcui
+Author: Boxuan Cui [aut, cre]
+Maintainer: Boxuan Cui <boxuancui@gmail.com>
+Repository: CRAN
+Date/Publication: 2016-03-01 17:15:26

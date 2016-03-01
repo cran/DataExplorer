@@ -1,0 +1,65 @@
+---
+title: "Data Profiling Report"
+output:
+  html_document: 
+    theme: cerulean
+    toc: yes
+    toc_depth: 6
+params:
+  data: data
+  fun_options: fun_options
+---
+
+```{r global_options, include = FALSE}
+data <- params$data
+opts <- params$fun_options
+knitr::opts_chunk$set(fig.width = 14, fig.height = 10, echo = FALSE)
+```
+
+### Basic Statistics
+The data is **`r format(object.size(data), units = "auto")`** in size. There are **`r format(nrow(data), big.mark = ",")`** observations (rows) and **`r format(ncol(data), big.mark = ",")`** features (columns), with **`r SplitColType(data)$num_discrete`** discrete and **`r SplitColType(data)$num_continuous`** continuous. There are **`r format(sum(is.na(data)), big.mark = ",")`** missing values out of **`r format(nrow(data)*ncol(data), big.mark = ",")`** data points.
+
+Below is the structure of the data.
+```{r data_structure}
+str(data)
+```
+
+### Missing Values
+The following graph shows the distribution of missing values.
+```{r plot_missing}
+PlotMissing(data)
+```
+
+### Data Distribution
+
+#### Continuous Features
+
+###### Histogram
+The following graph shows the frequency distribution of all continuous features.
+```{r histogram_continuous}
+HistogramContinuous(data)
+```
+
+###### Density Estimates
+The following graph shows the density estimates of all continuous features.
+```{r density_continuous}
+DensityContinuous(data)
+```
+
+###### Correlation Heatmap
+```{r correlation_continuous}
+CorrelationContinuous(data, use = "na.or.complete")
+```
+
+#### Discrete Features
+###### Bar Charts
+The following graph shows the frequency distribution of all discrete features.
+```{r bar_discrete}
+BarDiscrete(data)
+```
+
+###### Correlation Heatmap
+```{r correlation_discrete}
+CorrelationDiscrete(data, use = "pairwise.complete.obs")
+```
+
