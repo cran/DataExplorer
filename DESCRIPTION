@@ -1,6 +1,6 @@
 Package: DataExplorer
 Title: Data Explorer
-Version: 0.2.4
+Version: 0.2.6
 Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
 Description: Data exploration process for data analysis and model building, so
     that users could focus on understanding data and extracting insights. The
@@ -17,8 +17,8 @@ URL: https://github.com/boxuancui/DataExplorer
 BugReports: https://github.com/boxuancui/DataExplorer/issues
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-03-02 02:07:53 UTC; bcui
+Packaged: 2016-05-07 22:06:55 UTC; bcui
 Author: Boxuan Cui [aut, cre]
 Maintainer: Boxuan Cui <boxuancui@gmail.com>
 Repository: CRAN
-Date/Publication: 2016-03-02 17:13:10
+Date/Publication: 2016-05-08 15:20:32
