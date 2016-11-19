@@ -1,6 +1,6 @@
 Package: DataExplorer
 Title: Data Explorer
-Version: 0.2.6
+Version: 0.3.0
 Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
 Description: Data exploration process for data analysis and model building, so
     that users could focus on understanding data and extracting insights. The
@@ -16,9 +16,10 @@ LazyData: true
 URL: https://github.com/boxuancui/DataExplorer
 BugReports: https://github.com/boxuancui/DataExplorer/issues
 RoxygenNote: 5.0.1
+Suggests: testthat, covr
 NeedsCompilation: no
-Packaged: 2016-05-07 22:06:55 UTC; bcui
+Packaged: 2016-11-19 03:55:26 UTC; bcui
 Author: Boxuan Cui [aut, cre]
 Maintainer: Boxuan Cui <boxuancui@gmail.com>
 Repository: CRAN
-Date/Publication: 2016-05-08 15:20:32
+Date/Publication: 2016-11-19 10:11:58
