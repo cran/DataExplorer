@@ -10,12 +10,12 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 6, fig.align = "center", warni
 ## ----plot-str-template, eval=FALSE---------------------------------------
 #  library(DataExplorer)
 #  data_list <- list(airlines, airports, flights, planes, weather)
-#  PlotStr(data_list)
+#  plot_str(data_list)
 
 ## ----plot-str-run, echo=FALSE--------------------------------------------
 data_list <- list(airlines, airports, flights, planes, weather)
 diagonalNetwork(
-  PlotStr(data_list, print_network = FALSE),
+  plot_str(data_list, print_network = FALSE),
   width = 700,
   height = 550,
   fontSize = 12,
@@ -37,48 +37,56 @@ final_data <- merge(merge_airports_origin, airports, by.x = "dest", by.y = "faa"
 #  object.size(final_data)
 
 ## ----eda-plot-missing----------------------------------------------------
-PlotMissing(final_data)
+plot_missing(final_data)
 
-## ----eda-bar-discrete, fig.width=10, fig.height=6------------------------
-BarDiscrete(final_data)
+## ----eda-plot-bar, fig.width=10, fig.height=6----------------------------
+plot_bar(final_data)
 
-## ----eda-histogram-continuous, fig.width=10, fig.height=6----------------
-HistogramContinuous(final_data)
+## ----eda-plot-histogram, fig.width=10, fig.height=6----------------------
+plot_histogram(final_data)
 
-## ----eda-bar-discrete-2--------------------------------------------------
-BarDiscrete(final_data$manufacturer)
+## ----eda-plot-bar-single-------------------------------------------------
+plot_bar(final_data$manufacturer)
 
-## ----eda-histogram-continuous-2------------------------------------------
-HistogramContinuous(final_data$seats)
+## ----eda-plot-histogram-single-------------------------------------------
+plot_histogram(final_data$seats)
 
-## ----eda-correlation, fig.width=8, fig.height=8--------------------------
-CorrelationDiscrete(final_data)
-CorrelationContinuous(final_data, use = "na.or.complete")
+## ----eda-plot-correlation, fig.width=8, fig.height=8---------------------
+plot_correlation(final_data, use = "pairwise.complete.obs")
 
-## ----fe-set-na-to, collapse=TRUE-----------------------------------------
+## ----eda-plot-boxplot, fig.width=8, fig.height=8-------------------------
+## Reduce data size
+arr_delay_df <- final_data[, c("arr_delay", "month", "day", "hour", "minute", "dep_delay", "distance", "year_planes", "seats", "speed")]
+plot_boxplot(arr_delay_df, "arr_delay")
+
+## ----eda-plot-scatterplot, fig.width=8, fig.height=8---------------------
+## Reduce data size
+arr_delay_df2 <- final_data[, c("arr_delay", "month", "distance", "seats", "origin", "carrier", "manufacturer")]
+plot_scatterplot(arr_delay_df2, "arr_delay", size = 0.8)
+
+## ----fe-set-missing, collapse=TRUE---------------------------------------
 library(data.table)
 final_dt <- data.table(final_data)
-SetNaTo(final_dt, list(0L, "unknown"))
+set_missing(final_dt, list(0L, "unknown"))
 
+## ----fe-group-category-count-trial---------------------------------------
+group_category(data = final_dt, feature = "manufacturer", threshold = 0.2)
 
-## ----fe-collapse-category-count-trial------------------------------------
-CollapseCategory(data = final_dt, feature = "manufacturer", threshold = 0.2)
+## ----fe-group-category-count-update, results='hide'----------------------
+group_category(data = final_dt, feature = "manufacturer", threshold = 0.2, update = TRUE)
+plot_bar(final_dt$manufacturer)
 
-## ----fe-collapse-category-count-update, results='hide'-------------------
-CollapseCategory(data = final_dt, feature = "manufacturer", threshold = 0.2, update = TRUE)
-BarDiscrete(final_dt$manufacturer)
+## ----fe-group-category-metric-trial--------------------------------------
+group_category(data = final_dt, feature = "name_carrier", threshold = 0.2, measure = "distance")
 
-## ----fe-collapse-category-metric-trial-----------------------------------
-CollapseCategory(data = final_dt, feature = "name_carrier", threshold = 0.2, measure = "distance")
+## ----fe-group-category-metric-update, results='hide'---------------------
+group_category(data = final_dt, feature = "name_carrier", threshold = 0.2, measure = "distance", update = TRUE)
+plot_bar(final_dt$name_carrier)
 
-## ----fe-collapse-category-metric-update, results='hide'------------------
-CollapseCategory(data = final_dt, feature = "name_carrier", threshold = 0.2, measure = "distance", update = TRUE)
-BarDiscrete(final_dt$name_carrier)
+## ----fe-drop-columns, eval=FALSE, collapse=TRUE--------------------------
+#  drop_columns(final_dt, c("dst_origin", "dst_dest", "tzone_dest"))
+#  drop_columns(final_dt, c(34, 41, 42))
 
-## ----fe-drop-var, eval=FALSE, collapse=TRUE------------------------------
-#  DropVar(final_dt, c("dst_origin", "dst_dest", "tzone_dest"))
-#  DropVar(final_dt, c(34, 41, 42))
-
-## ----dr-generate-report, eval=FALSE--------------------------------------
-#  GenerateReport(final_data)
+## ----dr-create-report, eval=FALSE----------------------------------------
+#  create_report(final_data)
 

@@ -1,17 +1,18 @@
-# DataExplorer
-[![CRAN Version](http://www.r-pkg.org/badges/version/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
+# DataExplorer [![CRAN Version](http://www.r-pkg.org/badges/version/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
+<!--
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
 [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
+-->
 
-[![Master Version](https://img.shields.io/badge/master-0.4.0-orange.svg)](https://github.com/boxuancui/DataExplorer/tree/master)
+###### master v0.5.0
 [![Travis Build Status](https://travis-ci.org/boxuancui/DataExplorer.svg?branch=master)](https://travis-ci.org/boxuancui/DataExplorer/branches)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/boxuancui/DataExplorer?branch=master&svg=true)](https://ci.appveyor.com/project/boxuancui/DataExplorer)
-[![Coverage Status](https://img.shields.io/codecov/c/github/boxuancui/DataExplorer/master.svg)](https://codecov.io/gh/boxuancui/DataExplorer/branch/master)
+[![codecov](https://codecov.io/gh/boxuancui/DataExplorer/branch/master/graph/badge.svg)](https://codecov.io/gh/boxuancui/DataExplorer)
 
-[![Develop Version](https://img.shields.io/badge/develop-0.4.0.9000-orange.svg)](https://github.com/boxuancui/DataExplorer/tree/develop)
+###### develop v0.5.0
 [![Travis Build Status](https://travis-ci.org/boxuancui/DataExplorer.svg?branch=develop)](https://travis-ci.org/boxuancui/DataExplorer/branches)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/boxuancui/DataExplorer?branch=develop&svg=true)](https://ci.appveyor.com/project/boxuancui/DataExplorer)
-[![Coverage Status](https://img.shields.io/codecov/c/github/boxuancui/DataExplorer/develop.svg)](https://codecov.io/gh/boxuancui/DataExplorer/branch/develop)
+[![codecov](https://codecov.io/gh/boxuancui/DataExplorer/branch/develop/graph/badge.svg)](https://codecov.io/gh/boxuancui/DataExplorer)
 
 ---
 
@@ -23,30 +24,30 @@ The package can be installed directly from CRAN.
 
     install.packages("DataExplorer")
 
-However, the latest stable version (if any) could be found on [GitHub](https://github.com/boxuancui/DataExplorer), and installed using `devtools` package.
+However, the latest stable version (if any) could be found on [GitHub](https://github.com/boxuancui/DataExplorer), and installed using `remotes` package.
 
-    if (!require(devtools)) install.packages("devtools")
-    devtools::install_github("boxuancui/DataExplorer")
+    if (!require(remotes)) install.packages("remotes")
+    remotes::install_github("boxuancui/DataExplorer")
 
 If you would like to install the latest [development version](https://github.com/boxuancui/DataExplorer/tree/develop), you may install the dev branch.
 
-    if (!require(devtools)) install.packages("devtools")
-    devtools::install_github("boxuancui/DataExplorer", ref = "develop")
+    if (!require(remotes)) install.packages("remotes")
+    remotes::install_github("boxuancui/DataExplorer", ref = "develop")
 
 ## Examples
-The package is extremely easy to use. Almost everything could be done in one line of code. Please refer to the package manuals for more information.
+The package is extremely easy to use. Almost everything could be done in one line of code. Please refer to the package manuals for more information. You may also find the package vignettes [here](https://CRAN.R-project.org/package=DataExplorer/vignettes/dataexplorer-intro.html).
 
 #### Create data profiling report
 To get a report for the [airquality](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/airquality.html) dataset:
 
     library(DataExplorer)
-    GenerateReport(airquality)
+    create_report(airquality)
 
 To get a report for the [diamonds](http://docs.ggplot2.org/0.9.3.1/diamonds.html) dataset from `ggplot2` package:
 
     library(DataExplorer)
     library(ggplot2)
-    GenerateReport(diamonds)
+    create_report(diamonds)
 
 #### Visualize various distribution
 You may also run all the plotting functions individually for your analysis, e.g.,
@@ -55,25 +56,47 @@ You may also run all the plotting functions individually for your analysis, e.g.
     library(ggplot2)
     
     ## View distribution of all discrete variables
-    BarDiscrete(diamonds)
+    plot_bar(diamonds)
     ## View distribution of cut only
-    BarDiscrete(diamonds$cut)
+    plot_bar(diamonds$cut)
     ## View correlation of all discrete varaibles
-    CorrelationDiscrete(diamonds)
+    plot_correlation(diamonds, type = "discrete")
     
     ## View distribution of all continuous variables
-    HistogramContinuous(diamonds)
+    plot_histogram(diamonds)
     ## View distribution of carat only
-    HistogramContinuous(diamonds$carat)
+    plot_histogram(diamonds$carat)
     ## View correlation of all continuous varaibles
-    CorrelationContinuous(diamonds)
+    plot_correlation(diamonds, type = "continuous")
+    
+    ## View overall correlation heatmap
+    plot_correlation(diamonds)
     
     ## View distribution of missing values for airquality data
-    missing_data <- PlotMissing(airquality) # missing data profile will be returned
+    missing_data <- plot_missing(airquality) # missing data profile will be returned
     missing_data
 
-#### Collapse categorical variables
-Sometimes, discrete variables are messy, e.g., too many imbalanced categories, extremely skewed categorical distribution. You may use `CollapseCategory` function to help you group the long tails.
+#### Slice and dice your data
+To visualize distributions based on another variable, you may do the following:
+
+	library(DataExplorer)
+	
+	## View iris continuous distribution based on each Species
+	plot_boxplot(iris, "Species")
+	
+	## View iris continuous distribution based on different buckets of Sepal.Length
+	plot_boxplot(iris, "Sepal.Length")
+	
+	## Scatterplot Ozone against all other airquality features
+	# Set some features to factor
+	for (i in c("Month", "Day")) airquality[[i]] <- as.factor(airquality[[i]])
+	# Plot scatterplot
+	# Note: discrete and continuous charts are plotted on separate pages!
+	plot_scatterplot(airquality, "Ozone")
+
+
+#### Group categories for discrete features
+Sometimes, discrete variables are messy, e.g., too many imbalanced categories, extremely skewed categorical distribution. You may use `group_category` function to help you group the long tails.
 
     library(DataExplorer)
     library(ggplot2)
@@ -84,16 +107,16 @@ Sometimes, discrete variables are messy, e.g., too many imbalanced categories, e
     table(diamonds$clarity)
     
     ## Trial and error without updating: Group bottom 20% clarity based on frequency
-    CollapseCategory(diamonds, "clarity", 0.2)
+    group_category(diamonds, "clarity", 0.2)
     ## Group bottom 30% clarity and update original dataset
-    CollapseCategory(diamonds, "clarity", 0.3, update = TRUE)
+    group_category(diamonds, "clarity", 0.3, update = TRUE)
     
     ## View distribution after updating
     table(diamonds$clarity)
     
     ## Group bottom 20% cut using value of carat
     table(diamonds$cut)
-    CollapseCategory(diamonds, "cut", 0.2, measure = "carat", update = TRUE)
+    group_category(diamonds, "cut", 0.2, measure = "carat", update = TRUE)
     table(diamonds$cut)
 
 Note: this function works with [data.table](https://cran.r-project.org/package=data.table) objects only. If you are working with `data.frame`, please add `data.table` class to your object and then remove it later. See example below.
@@ -103,12 +126,12 @@ Note: this function works with [data.table](https://cran.r-project.org/package=d
     ## Set data.frame object to data.table
     USArrests <- data.table(USArrests)
     ## Collapse bottom 10% UrbanPop based on frequency
-    CollapseCategory(USArrests, "UrbanPop", 0.1, update = TRUE)
+    group_category(USArrests, "UrbanPop", 0.1, update = TRUE)
     ## Set object back to data.frame
     class(USArrests) <- "data.frame"
 
 #### Other miscellaneous functions
-* `PlotStr`: Plot data structure in network graph.
-* `DropVar`: Quickly drop variables with either column index or column names. (**data.table only**)
-* `SetNaTo`: Quickly set all missing observations to a value. (**data.table only**)
-* `SplitColType`: Split data into two objects: discrete and continous.
+* `plot_str`: Plot data structure in network graph.
+* `drop_columns`: Quickly drop variables with either column index or column names. (**data.table only**)
+* `set_missing`: Quickly set all missing observations to a value. (**data.table only**)
+* `split_columns`: Split data into two objects: discrete and continous.
