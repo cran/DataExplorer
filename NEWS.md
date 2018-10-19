@@ -1,5 +1,37 @@
 # Changelog
 
+### DataExplorer 0.7.0
+#### New Features
+* [#72](https://github.com/boxuancui/DataExplorer/issues/72): Added `plot_qq` for QQ plot.
+* [#76](https://github.com/boxuancui/DataExplorer/issues/76): Added `plot_intro` to visualize results of `introduce`.
+
+#### Enhancements
+* [#42](https://github.com/boxuancui/DataExplorer/issues/42): Applied S3 methods for plotting functions.
+* [#77](https://github.com/boxuancui/DataExplorer/issues/77): `dummify` now works on selected columns.
+* [#78](https://github.com/boxuancui/DataExplorer/issues/78): All ggplot objects from `plot_*` are now invisibly returned. As a result, extracted `profile_missing` from `plot_missing` for missing value profiles.
+* [#83](https://github.com/boxuancui/DataExplorer/issues/83): Removed all deprecated functions.
+* [#85](https://github.com/boxuancui/DataExplorer/issues/85): Users can now specify number of rows/columns for plot page layout.
+* `plot_prcomp` now passed `scale. = TRUE` to `prcomp` by default.
+* Added `sampled_rows` argument to `plot_scatterplot`.
+* Added option to parallelize plot object construction.
+* Updated default config for `create_report`.
+
+#### Bug Fixes
+* [#74](https://github.com/boxuancui/DataExplorer/issues/74): Fixed a bug causing `create_report` failure due to zero complete rows.
+* [#75](https://github.com/boxuancui/DataExplorer/issues/75): Fixed a bug in `plot_str` when plotting data.frame with more than 100 columns.
+* [#82](https://github.com/boxuancui/DataExplorer/issues/82): Removed hard-coded scales from all plot functions.
+* Fixed a bug causing wrong column indices in `split_columns`.
+* Fixed a bug using standard deviation instead of variance in `plot_prcomp`.
+
+### DataExplorer 0.6.1
+#### Enhancements
+* Updated vignette for better clarity.
+* [#71](https://github.com/boxuancui/DataExplorer/issues/71): Added better error handler for `plot_prcomp`.
+
+#### Bug Fixes
+* [#69](https://github.com/boxuancui/DataExplorer/issues/69): Fixed bug causing `create_report` failure (specifically from `plot_prcomp`) when `y` is specified.
+* Added more unit tests for `create_report` and `plot_prcomp`.
+
 ### DataExplorer 0.6.0
 #### New Features
 * [#15](https://github.com/boxuancui/DataExplorer/issues/15): Added `plot_prcomp` to visualize principle component analysis.
@@ -11,11 +43,11 @@
 * [#53](https://github.com/boxuancui/DataExplorer/issues/53): Added page number for plots that span multiple pages.
 * [#56](https://github.com/boxuancui/DataExplorer/issues/56): Added support for theme and customization for individual components.
 * [#62](https://github.com/boxuancui/DataExplorer/issues/62): `plot_bar` now supports optional measures (in addition to categorical frequency) using argument `with`.
+* [#66](https://github.com/boxuancui/DataExplorer/issues/66): Feature engineering functions works on other classes in addition to just **data.table**.
 * `plot_missing`:
 	* Percentage text labels from output plot now has 2 decimals to prevent small percentages from being truncated to 0%.
 	* Added example to quickly drop columns with too many missing values.
-* [#66](https://github.com/boxuancui/DataExplorer/issues/66): Feature engineering functions works on other classes in addition to just **data.table**.
-* Added `.ignoreCat` to helper.
+* Added `.ignoreCat` and `.getAllMissing` to helper.
 
 #### Bug Fixes
 * [#55](https://github.com/boxuancui/DataExplorer/issues/55): Fixed bugs and updated vignette with latest functions.

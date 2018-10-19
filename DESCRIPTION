@@ -1,27 +1,28 @@
 Package: DataExplorer
 Title: Data Explorer
-Version: 0.6.0
+Version: 0.7.0
 Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
 Description: Data exploration process for data analysis and model building, so
     that users could focus on understanding data and extracting insights. The
     package automatically scans through each variable and does data profiling.
     Typical graphical techniques will be performed for both discrete and
     continuous features.
-Depends: R (>= 3.3)
-Imports: data.table (>= 1.11), reshape2 (>= 1.4), ggplot2 (>= 2.2),
-        scales (>= 0.5), gridExtra (>= 2.3), rmarkdown (>= 1.9),
-        networkD3 (>= 0.4), stats, utils, tools
+Depends: R (>= 3.4)
+Imports: data.table (>= 1.11), reshape2 (>= 1.4), scales (>= 1.0),
+        ggplot2 (>= 2.2), gridExtra (>= 2.3), rmarkdown (>= 1.10),
+        networkD3 (>= 0.4), stats, utils, tools, parallel
 Suggests: testthat, covr, knitr, jsonlite, nycflights13
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/boxuancui/DataExplorer
 BugReports: https://github.com/boxuancui/DataExplorer/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
+Encoding: UTF-8
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-05-30 20:16:25 UTC; bcui
+Packaged: 2018-10-19 02:24:13 UTC; bcui
 Author: Boxuan Cui [aut, cre]
 Maintainer: Boxuan Cui <boxuancui@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-05-30 20:36:10 UTC
+Date/Publication: 2018-10-19 04:20:03 UTC
