@@ -4,12 +4,14 @@
 \alias{plot_density}
 \title{Plot density estimates}
 \usage{
-plot_density(data, geom_density_args = list(), title = NULL,
-  ggtheme = theme_gray(), theme_config = list(), nrow = 4L,
-  ncol = 4L, parallel = FALSE)
+plot_density(data, binary_as_factor = TRUE, geom_density_args = list(),
+  title = NULL, ggtheme = theme_gray(), theme_config = list(),
+  nrow = 4L, ncol = 4L, parallel = FALSE)
 }
 \arguments{
 \item{data}{input data}
+
+\item{binary_as_factor}{treat binary as categorical? Default is \code{TRUE}.}
 
 \item{geom_density_args}{a list of other arguments to \link{geom_density}}
 
@@ -32,14 +34,12 @@ invisibly return the named list of ggplot objects
 Plot density estimates for each continuous feature
 }
 \examples{
-# Plot using iris data
-plot_density(iris)
+# Plot iris data
+plot_density(iris, nrow = 2L, ncol = 2L)
 
-# Plot using random data
+# Plot random data
 set.seed(1)
-data <- cbind(sapply(seq.int(4L), function(x) {
-          runif(500, min = sample(100, 1), max = sample(1000, 1))
-        }))
+data <- data.frame(replicate(16L, rnorm(100)))
 plot_density(data)
 
 # Add color to density area

@@ -5,8 +5,8 @@
 \title{Plot bar chart}
 \usage{
 plot_bar(data, with = NULL, maxcat = 50, order_bar = TRUE,
-  title = NULL, ggtheme = theme_gray(), theme_config = list(),
-  nrow = 3L, ncol = 3L, parallel = FALSE)
+  binary_as_factor = TRUE, title = NULL, ggtheme = theme_gray(),
+  theme_config = list(), nrow = 3L, ncol = 3L, parallel = FALSE)
 }
 \arguments{
 \item{data}{input data}
@@ -16,6 +16,8 @@ plot_bar(data, with = NULL, maxcat = 50, order_bar = TRUE,
 \item{maxcat}{maximum categories allowed for each feature. Default is 50.}
 
 \item{order_bar}{logical, indicating if bars should be ordered. Default is \code{TRUE}.}
+
+\item{binary_as_factor}{treat binary as categorical? Default is \code{TRUE}.}
 
 \item{title}{plot title}
 
@@ -39,11 +41,8 @@ Plot bar chart for each discrete feature, based on either frequency or another c
 If a discrete feature contains more categories than \code{maxcat} specifies, it will not be passed to the plotting function.
 }
 \examples{
-# Load diamonds dataset from ggplot2
-library(ggplot2)
-data("diamonds", package = "ggplot2")
-
 # Plot bar charts for diamonds dataset
+library(ggplot2)
 plot_bar(diamonds)
 plot_bar(diamonds, maxcat = 5)
 

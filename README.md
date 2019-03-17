@@ -1,16 +1,17 @@
-# DataExplorer <img src="man/figures/logo.png" align="right" width="200" height="200"/>
+# DataExplorer <img src="man/figures/logo.png" align="right" width="130" height="150"/>
 
 [![CRAN Version](http://www.r-pkg.org/badges/version/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2053/badge)](https://bestpractices.coreinfrastructure.org/projects/2053)
 [![Downloads](http://cranlogs.r-pkg.org/badges/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/DataExplorer)](https://cran.r-project.org/package=DataExplorer)
 
-###### master v0.7.0
+###### master v0.8.0
 
 [![Travis Build Status](https://travis-ci.org/boxuancui/DataExplorer.svg?branch=master)](https://travis-ci.org/boxuancui/DataExplorer/branches)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/boxuancui/DataExplorer?branch=master&svg=true)](https://ci.appveyor.com/project/boxuancui/DataExplorer)
 [![codecov](https://codecov.io/gh/boxuancui/DataExplorer/branch/master/graph/badge.svg)](https://codecov.io/gh/boxuancui/DataExplorer/branch/master)
 
-###### develop v0.7.0.9000
+###### develop v0.8.0.9000
 
 [![Travis Build Status](https://travis-ci.org/boxuancui/DataExplorer.svg?branch=develop)](https://travis-ci.org/boxuancui/DataExplorer/branches)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/boxuancui/DataExplorer?branch=develop&svg=true)](https://ci.appveyor.com/project/boxuancui/DataExplorer)
@@ -19,7 +20,7 @@
 ---
 
 ## Background
-[Exploratory Data Analysis (EDA)](https://en.wikipedia.org/wiki/Exploratory_data_analysis) is the initial and an important phase of data analysis. Through this phase, analysts/modelers will have a first look of the data, and thus generate relevant hypothesis and decide next steps. However, the EDA process could be a hassle at times. This [R](https://cran.r-project.org/) package aims to automate most of data handling and visualization, so that users could focus on studying the data and extracting insights.
+[Exploratory Data Analysis (EDA)](https://en.wikipedia.org/wiki/Exploratory_data_analysis) is the initial and an important phase of data analysis/predictive modeling. During this process, analysts/modelers will have a first look of the data, and thus generate relevant hypotheses and decide next steps. However, the EDA process could be a hassle at times. This [R](https://cran.r-project.org/) package aims to automate most of data handling and visualization, so that users could focus on studying the data and extracting insights.
 
 ## Installation
 The package can be installed directly from CRAN.
@@ -31,15 +32,15 @@ install.packages("DataExplorer")
 However, the latest stable version (if any) could be found on [GitHub](https://github.com/boxuancui/DataExplorer), and installed using `remotes` package.
 
 ```R
-if (!require(remotes)) install.packages("remotes")
-remotes::install_github("boxuancui/DataExplorer")
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("boxuancui/DataExplorer")
 ```
 
 If you would like to install the latest [development version](https://github.com/boxuancui/DataExplorer/tree/develop), you may install the dev branch.
 
 ```R
-if (!require(remotes)) install.packages("remotes")
-remotes::install_github("boxuancui/DataExplorer", ref = "develop")
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("boxuancui/DataExplorer", ref = "develop")
 ```
 
 ## Examples
@@ -53,10 +54,9 @@ library(DataExplorer)
 create_report(airquality)
 ```
 
-To get a report for the [diamonds](http://docs.ggplot2.org/0.9.3.1/diamonds.html) dataset with response variable **price**:
+To get a report for the [diamonds](https://ggplot2.tidyverse.org/reference/diamonds.html) dataset with response variable **price**:
 
 ```R
-library(DataExplorer)
 library(ggplot2)
 create_report(diamonds, y = "price")
 ```
@@ -65,9 +65,6 @@ create_report(diamonds, y = "price")
 You may also run all the plotting functions individually for your analysis, e.g.,
 
 ```R
-library(DataExplorer)
-library(ggplot2)
-
 ## View basic description for airquality data
 introduce(airquality)
 plot_intro(airquality)
@@ -85,18 +82,18 @@ plot_density(diamonds)
 
 ## View quantile-quantile plot of all continuous variables
 plot_qq(diamonds)
-plot_qq(diamonds, by = "price")
+plot_qq(diamonds, by = "cut")
 
 ## View overall correlation heatmap
 plot_correlation(diamonds)
 
 ## View bivariate continuous distribution based on `price`
-plot_boxplot(diamonds, by = "price")
+plot_boxplot(diamonds, by = "cut")
 	
-## Scatterplot `price` with all other features
-plot_scatterplot(diamonds, by = "price")
+## Scatterplot `price` with all other continuous features
+plot_scatterplot(split_columns(diamonds)$continuous, by = "price", sampled_rows = 1000L)
 
-## Visualize principle component analysis
+## Visualize principal component analysis
 plot_prcomp(diamonds, maxcat = 5L)
 ```
 
@@ -104,9 +101,6 @@ plot_prcomp(diamonds, maxcat = 5L)
 To make quick updates to your data:
 
 ```R
-library(DataExplorer)
-library(ggplot2)
-
 ## Group bottom 20% `clarity` by frequency
 group_category(diamonds, feature = "clarity", threshold = 0.2, update = TRUE)
 
@@ -121,6 +115,10 @@ dummify(diamonds, select = "cut")
 df <- data.frame("a" = rnorm(260), "b" = rep(letters, 10))
 df[sample.int(260, 50), ] <- NA
 set_missing(df, list(0L, "unknown"))
+
+## Update columns
+update_columns(airquality, c("Month", "Day"), as.factor)
+update_columns(airquality, 1L, function(x) x^2)
 
 ## Drop columns
 drop_columns(diamonds, 8:10)

@@ -7,14 +7,15 @@ library(data.table)
 library(ggplot2)
 library(nycflights13)
 library(networkD3)
+set.seed(1)
 
 opts_chunk$set(
-	collapse = TRUE,
-	fig.width = 6,
-	fig.height = 6,
-	fig.align = "center",
-	warning = FALSE,
-	screenshot.force = FALSE
+collapse = TRUE,
+fig.width = 6,
+fig.height = 6,
+fig.align = "center",
+warning = FALSE,
+screenshot.force = FALSE
 )
 
 ## ----install-data, eval=FALSE--------------------------------------------
@@ -29,14 +30,14 @@ opts_chunk$set(
 ## ----plot-str-run, echo=FALSE--------------------------------------------
 data_list <- list(airlines, airports, flights, planes, weather)
 diagonalNetwork(
-	plot_str(data_list, print_network = FALSE),
-	width = 800,
-	height = 800,
-	fontSize = 20,
-	margin = list(
-		"left" = 50,
-		"right" = 50
-	)
+  plot_str(data_list, print_network = FALSE),
+  width = 800,
+  height = 800,
+  fontSize = 20,
+  margin = list(
+    "left" = 50,
+    "right" = 50
+  )
 )
 
 ## ----merge-data----------------------------------------------------------
@@ -51,11 +52,14 @@ final_data <- merge(merge_airports_origin, airports, by.x = "dest", by.y = "faa"
 ## ----eda-introduce-run, echo=FALSE---------------------------------------
 kable(t(introduce(final_data)), row.names = TRUE, col.names = "", format.args = list(big.mark = ","))
 
-## ----eda-plot-intro------------------------------------------------------
+## ----eda-plot-intro, fig.width=10, fig.height=8--------------------------
 plot_intro(final_data)
 
-## ----eda-plot-missing----------------------------------------------------
-plot_missing(final_data)
+## ----eda-plot-missing-template, eval=FALSE-------------------------------
+#  plot_missing(final_data)
+
+## ----eda-plot-missing, echo=FALSE, fig.width=8, fig.height=8-------------
+plot_missing(final_data, geom_label_args = list(size = 3, label.padding = unit(0.1, "lines")))
 
 ## ----eda-drop-speed------------------------------------------------------
 final_data <- drop_columns(final_data, "speed")
@@ -89,7 +93,7 @@ plot_bar(final_data, with = "arr_delay", theme_config = list("text" = element_te
 suppressWarnings(plot_histogram(final_data, nrow = 3L, ncol = 3L))
 
 ## ----eda-update-flight---------------------------------------------------
-final_data$flight <- as.factor(final_data$flight)
+final_data <- update_columns(final_data, "flight", as.factor)
 
 ## ----eda-drop-histogram-features-----------------------------------------
 final_data <- drop_columns(final_data, c("year_flights", "tz_origin"))
@@ -103,12 +107,28 @@ final_data <- drop_columns(final_data, c("year_flights", "tz_origin"))
 qq_data <- final_data[, c("arr_delay", "air_time", "distance", "seats")]
 
 plot_qq(
-	qq_data,
-	sampled_rows = 1000L,
-	geom_qq_args = list("na.rm" = TRUE),
-	geom_qq_line_args = list("na.rm" = TRUE),
-	nrow = 2L,
-	ncol = 2L
+  qq_data,
+  sampled_rows = 1000L,
+  geom_qq_args = list("na.rm" = TRUE),
+  geom_qq_line_args = list("na.rm" = TRUE),
+  nrow = 2L,
+  ncol = 2L
+)
+
+## ----eda-plot-qq-log-features-template, eval=FALSE-----------------------
+#  log_qq_data <- update_columns(qq_data, 2:4, function(x) log(x + 1))
+#  
+#  plot_qq(log_qq_data[, 2:4], sampled_rows = 1000L)
+
+## ----eda-plot-qq-log-features, echo=FALSE--------------------------------
+log_qq_data <- update_columns(qq_data, 2:4, function(x) log(x + 1))
+plot_qq(
+  log_qq_data[, 2:4],
+  sampled_rows = 1000L,
+  geom_qq_args = list("na.rm" = TRUE),
+  geom_qq_line_args = list("na.rm" = TRUE),
+  nrow = 2L,
+  ncol = 2L
 )
 
 ## ----eda-plot-qq-by-template, eval=FALSE---------------------------------
@@ -118,15 +138,14 @@ plot_qq(
 
 ## ----eda-plot-qq-by, echo=FALSE, fig.width=8, fig.height=8---------------
 qq_data <- final_data[, c("name_origin", "arr_delay", "air_time", "distance", "seats")]
-
 plot_qq(
-	qq_data,
-	by = "name_origin",
-	geom_qq_args = list("na.rm" = TRUE),
-	geom_qq_line_args = list("na.rm" = TRUE),
-	sampled_rows = 1000L,
-	nrow = 2L,
-	ncol = 2L
+  qq_data,
+  by = "name_origin",
+  geom_qq_args = list("na.rm" = TRUE),
+  geom_qq_line_args = list("na.rm" = TRUE),
+  sampled_rows = 1000L,
+  nrow = 2L,
+  ncol = 2L
 )
 
 ## ----eda-plot-correlation, fig.width=8, fig.height=8---------------------
@@ -139,7 +158,7 @@ plot_correlation(na.omit(final_data), maxcat = 5L)
 ## ----eda-plot-prcomp, fig.width=8, fig.height=8--------------------------
 pca_df <- na.omit(final_data[, c("origin", "dep_delay", "arr_delay", "air_time", "year_planes", "seats")])
 
-plot_prcomp(pca_df, variance_cap = 1)
+plot_prcomp(pca_df, variance_cap = 0.9, nrow = 2L, ncol = 2L)
 
 ## ----eda-plot-boxplot-template, eval=FALSE-------------------------------
 #  ## Reduce data size for demo purpose
@@ -188,29 +207,40 @@ plot_bar(final_df$name_carrier)
 
 ## ----fe-dummify-template, eval=FALSE-------------------------------------
 #  plot_str(
-#  	list(
-#  		"original" = final_data,
-#  		"dummified" = dummify(final_data, maxcat = 5L)
-#  	)
+#    list(
+#      "original" = final_data,
+#      "dummified" = dummify(final_data, maxcat = 5L)
+#    )
 #  )
 
 ## ----fe-dummify-run, echo=FALSE------------------------------------------
 diagonalNetwork(
-	plot_str(list("original" = final_data, "dummified" = dummify(final_data, maxcat = 5L)), print_network = FALSE),
-	width = 800,
-	height = 1500,
-	fontSize = 20,
-	margin = list(
-		"left" = 50,
-		"right" = 50
-	)
+  plot_str(list("original" = final_data, "dummified" = dummify(final_data, maxcat = 5L)), print_network = FALSE),
+  width = 800,
+  height = 1500,
+  fontSize = 20,
+  margin = list(
+    "left" = 50,
+    "right" = 50
+  )
 )
 
 ## ----fe-drop-columns-----------------------------------------------------
 identical(
-	drop_columns(final_data, c("dst_dest", "tzone_dest")),
-	drop_columns(final_data, c(36, 37))
+  drop_columns(final_data, c("dst_dest", "tzone_dest")),
+  drop_columns(final_data, c(36, 37))
 )
+
+## ----update-feature-type-------------------------------------------------
+temporal_features <- c("month", "day", "hour", "minute", "tz_dest")
+final_data <- update_columns(final_data, temporal_features, as.factor)
+str(final_data[, c("month", "day", "hour", "minute", "tz_dest")])
+
+## ----update-feature-transformation---------------------------------------
+bin_seat <- function(x) cut(x, breaks = c(0L, 50L, 100L, 150L, 200L, 500L))
+transformed_data <- update_columns(final_data, "seats", bin_seat)
+
+plot_bar(transformed_data$seats)
 
 ## ----dr-create-report, eval=FALSE----------------------------------------
 #  create_report(final_data)
@@ -218,25 +248,24 @@ identical(
 ## ----dr-create-report-with-y, eval=FALSE---------------------------------
 #  create_report(final_data, y = "arr_delay")
 
+## ----dr-configure-report-------------------------------------------------
+configure_report(
+  add_plot_str = FALSE,
+  add_plot_qq = FALSE,
+  add_plot_prcomp = FALSE,
+  add_plot_boxplot = FALSE,
+  add_plot_scatterplot = FALSE,
+  global_ggtheme = quote(theme_minimal(base_size = 14))
+)
+
 ## ----dr-create-report-customize, eval=FALSE------------------------------
-#  ## Customize report configuration
-#  config <- list(
-#  	"introduce" = list(),
-#  	"plot_str" = list(
-#  		"type" = "diagonal",
-#  		"fontSize" = 35,
-#  		"width" = 1000,
-#  		"margin" = list("left" = 350, "right" = 250)
-#  	),
-#  	"plot_missing" = list(),
-#  	"plot_histogram" = list(),
-#  	"plot_qq" = list(sampled_rows = 1000L),
-#  	"plot_bar" = list(),
-#  	"plot_correlation" = list("cor_args" = list("use" = "pairwise.complete.obs")),
-#  	"plot_prcomp" = list(),
-#  	"plot_boxplot" = list(),
-#  	"plot_scatterplot" = list(sampled_rows = 1000L)
+#  config <- configure_report(
+#    add_plot_str = FALSE,
+#    add_plot_qq = FALSE,
+#    add_plot_prcomp = FALSE,
+#    add_plot_boxplot = FALSE,
+#    add_plot_scatterplot = FALSE,
+#    global_ggtheme = quote(theme_minimal(base_size = 14))
 #  )
-#  ## Create final report
-#  create_report(final_data, y = "arr_delay", config = config)
+#  create_report(final_data, config = config)
 

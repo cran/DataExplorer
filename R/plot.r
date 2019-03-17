@@ -51,7 +51,7 @@ plotDataExplorer <- function(plot_obj, title, ggtheme, theme_config, ...) {
 plotDataExplorer.grid <- function(plot_obj, title, ggtheme, theme_config, page_layout, nrow, ncol, ...) {
 	plot_list <- lapply(plot_obj, function(p) {
 		p +
-			ggtheme +
+			eval(ggtheme) +
 			do.call(theme, theme_config)
 	})
 
@@ -61,7 +61,7 @@ plotDataExplorer.grid <- function(plot_obj, title, ggtheme, theme_config, page_l
 			suppressMessages(do.call(grid.arrange, c(plot_list[index], ncol = ncol, nrow = nrow, top = title, bottom = pg_name)))
 		}))
 	} else {
-		suppressMessages(do.call(grid.arrange, c(plot_list, top = title)))
+		suppressMessages(do.call(grid.arrange, c(plot_list, ncol = ncol, nrow = nrow, top = title)))
 	}
 
 	invisible(plot_list)
@@ -84,7 +84,7 @@ plotDataExplorer.grid <- function(plot_obj, title, ggtheme, theme_config, page_l
 plotDataExplorer.single <- function(plot_obj, title, ggtheme, theme_config, ...) {
 	plot_obj <- plot_obj +
 		ggtitle(title) +
-		ggtheme +
+		eval(ggtheme) +
 		do.call(theme, theme_config)
 
 	print(plot_obj)
@@ -115,7 +115,7 @@ plotDataExplorer.multiple <- function(plot_obj, title, ggtheme, theme_config, pa
 			do.call("facet_wrap", facet_wrap_args) +
 			labs(title = title, caption = ifelse(n > 1, names(page_layout)[i], "")) +
 			ggtitle(title) +
-			ggtheme +
+			eval(ggtheme) +
 			do.call(theme, theme_config)
 	})
 
