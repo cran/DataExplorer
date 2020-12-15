@@ -78,13 +78,19 @@ final_data[which(final_data$manufacturer %in% c("MCDONNELL DOUGLAS AIRCRAFT CO",
 plot_bar(final_data$manufacturer)
 
 ## ----eda-drop-bar-features----------------------------------------------------
-final_data <- drop_columns(final_data, c("dst_origin", "tzone_origin"))
+final_data <- drop_columns(final_data, c("dst_origin", "tzone_origin", "year_flights", "tz_origin"))
 
 ## ----eda-plot-bar-with-template, eval=FALSE-----------------------------------
 #  plot_bar(final_data, with = "arr_delay")
 
 ## ----eda-plot-bar-with-run, echo=FALSE, fig.width=8, fig.height=10------------
 plot_bar(final_data, with = "arr_delay", theme_config = list("text" = element_text(size = 6)))
+
+## ----eda-plot-bar-by-template, eval=FALSE-------------------------------------
+#  plot_bar(final_data, by = "origin")
+
+## ----eda-plot-bar-by-run, echo=FALSE, fig.width=8, fig.height=10--------------
+plot_bar(final_data, by = "origin", theme_config = list("text" = element_text(size = 6)))
 
 ## ----eda-plot-histogram-template, eval=FALSE----------------------------------
 #  plot_histogram(final_data)
