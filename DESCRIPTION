@@ -1,6 +1,6 @@
 Package: DataExplorer
 Title: Automate Data Exploration and Treatment
-Version: 0.8.2
+Version: 0.8.3
 Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
 Description: Automated data exploration process for analytic tasks and predictive modeling, so
     that users could focus on understanding data and extracting insights. The package scans and
@@ -14,15 +14,14 @@ Suggests: testthat, covr, knitr, jsonlite, nycflights13
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 License: MIT + file LICENSE
 Language: en-US
-LazyData: true
 URL: http://boxuancui.github.io/DataExplorer/
 BugReports: https://github.com/boxuancui/DataExplorer/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.0
 Encoding: UTF-8
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2020-12-08 16:31:09 UTC; bocui
+Packaged: 2024-01-24 00:12:06 UTC; bocui
 Author: Boxuan Cui [aut, cre]
 Maintainer: Boxuan Cui <boxuancui@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-12-15 23:30:03 UTC
+Date/Publication: 2024-01-24 00:32:44 UTC
