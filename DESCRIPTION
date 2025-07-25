@@ -1,6 +1,6 @@
 Package: DataExplorer
 Title: Automate Data Exploration and Treatment
-Version: 0.8.3
+Version: 0.8.4
 Authors@R: person("Boxuan", "Cui", email = "boxuancui@gmail.com", role = c("aut", "cre"))
 Description: Automated data exploration process for analytic tasks and predictive modeling, so
     that users could focus on understanding data and extracting insights. The package scans and
@@ -16,12 +16,12 @@ License: MIT + file LICENSE
 Language: en-US
 URL: http://boxuancui.github.io/DataExplorer/
 BugReports: https://github.com/boxuancui/DataExplorer/issues
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2024-01-24 00:12:06 UTC; bocui
+Packaged: 2025-07-25 00:44:41 UTC; bocui
 Author: Boxuan Cui [aut, cre]
 Maintainer: Boxuan Cui <boxuancui@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-01-24 00:32:44 UTC
+Date/Publication: 2025-07-25 02:20:02 UTC

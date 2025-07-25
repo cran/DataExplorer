@@ -1,3 +1,9 @@
+# DataExplorer 0.8.4
+## Bug Fixes
+* Fixed Rd cross-reference issues for CRAN submission by adding proper package anchors to external function links.
+* Updated all `.r` file extensions to `.R` for consistency with R naming conventions.
+* Updated GitHub Actions workflows to use latest action versions (actions/checkout@v4, actions/upload-artifact@v4).
+
 # DataExplorer 0.8.3
 ## Enhancements
 * [#154 PR](https://github.com/boxuancui/DataExplorer/pull/154): Added YAML option to allow HTML elements when choosing PDF report.

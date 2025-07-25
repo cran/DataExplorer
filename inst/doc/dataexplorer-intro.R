@@ -19,13 +19,13 @@ screenshot.force = FALSE
 )
 
 ## ----install-data, eval=FALSE-------------------------------------------------
-#  install.packages("nycflights13")
-#  library(nycflights13)
+# install.packages("nycflights13")
+# library(nycflights13)
 
 ## ----plot-str-template, eval=FALSE--------------------------------------------
-#  library(DataExplorer)
-#  data_list <- list(airlines, airports, flights, planes, weather)
-#  plot_str(data_list)
+# library(DataExplorer)
+# data_list <- list(airlines, airports, flights, planes, weather)
+# plot_str(data_list)
 
 ## ----plot-str-run, echo=FALSE-------------------------------------------------
 data_list <- list(airlines, airports, flights, planes, weather)
@@ -47,7 +47,7 @@ merge_airports_origin <- merge(merge_planes, airports, by.x = "origin", by.y = "
 final_data <- merge(merge_airports_origin, airports, by.x = "dest", by.y = "faa", all.x = TRUE, suffixes = c("_origin", "_dest"))
 
 ## ----eda-introduce-template, eval=FALSE---------------------------------------
-#  introduce(final_data)
+# introduce(final_data)
 
 ## ----eda-introduce-run, echo=FALSE--------------------------------------------
 kable(t(introduce(final_data)), row.names = TRUE, col.names = "", format.args = list(big.mark = ","))
@@ -56,7 +56,7 @@ kable(t(introduce(final_data)), row.names = TRUE, col.names = "", format.args = 
 plot_intro(final_data)
 
 ## ----eda-plot-missing-template, eval=FALSE------------------------------------
-#  plot_missing(final_data)
+# plot_missing(final_data)
 
 ## ----eda-plot-missing, echo=FALSE, fig.width=8, fig.height=8------------------
 plot_missing(final_data, geom_label_args = list(size = 3, label.padding = unit(0.1, "lines")))
@@ -65,7 +65,7 @@ plot_missing(final_data, geom_label_args = list(size = 3, label.padding = unit(0
 final_data <- drop_columns(final_data, "speed")
 
 ## ----eda-plot-bar-template, eval=FALSE----------------------------------------
-#  plot_bar(final_data)
+# plot_bar(final_data)
 
 ## ----eda-plot-bar-run, echo=FALSE, fig.width=8, fig.height=12-----------------
 plot_bar(final_data, theme_config = list("text" = element_text(size = 6)), nrow = 4L, ncol = 3L)
@@ -81,19 +81,19 @@ plot_bar(final_data$manufacturer)
 final_data <- drop_columns(final_data, c("dst_origin", "tzone_origin", "year_flights", "tz_origin"))
 
 ## ----eda-plot-bar-with-template, eval=FALSE-----------------------------------
-#  plot_bar(final_data, with = "arr_delay")
+# plot_bar(final_data, with = "arr_delay")
 
 ## ----eda-plot-bar-with-run, echo=FALSE, fig.width=8, fig.height=10------------
 plot_bar(final_data, with = "arr_delay", theme_config = list("text" = element_text(size = 6)))
 
 ## ----eda-plot-bar-by-template, eval=FALSE-------------------------------------
-#  plot_bar(final_data, by = "origin")
+# plot_bar(final_data, by = "origin")
 
 ## ----eda-plot-bar-by-run, echo=FALSE, fig.width=8, fig.height=10--------------
 plot_bar(final_data, by = "origin", theme_config = list("text" = element_text(size = 6)))
 
 ## ----eda-plot-histogram-template, eval=FALSE----------------------------------
-#  plot_histogram(final_data)
+# plot_histogram(final_data)
 
 ## ----eda-plot-histogram, echo=FALSE, fig.width=8------------------------------
 suppressWarnings(plot_histogram(final_data, nrow = 3L, ncol = 3L))
@@ -105,9 +105,9 @@ final_data <- update_columns(final_data, "flight", as.factor)
 final_data <- drop_columns(final_data, c("year_flights", "tz_origin"))
 
 ## ----eda-plot-qq-template, eval=FALSE-----------------------------------------
-#  qq_data <- final_data[, c("arr_delay", "air_time", "distance", "seats")]
-#  
-#  plot_qq(qq_data, sampled_rows = 1000L)
+# qq_data <- final_data[, c("arr_delay", "air_time", "distance", "seats")]
+# 
+# plot_qq(qq_data, sampled_rows = 1000L)
 
 ## ----eda-plot-qq, echo=FALSE--------------------------------------------------
 qq_data <- final_data[, c("arr_delay", "air_time", "distance", "seats")]
@@ -122,9 +122,9 @@ plot_qq(
 )
 
 ## ----eda-plot-qq-log-features-template, eval=FALSE----------------------------
-#  log_qq_data <- update_columns(qq_data, 2:4, function(x) log(x + 1))
-#  
-#  plot_qq(log_qq_data[, 2:4], sampled_rows = 1000L)
+# log_qq_data <- update_columns(qq_data, 2:4, function(x) log(x + 1))
+# 
+# plot_qq(log_qq_data[, 2:4], sampled_rows = 1000L)
 
 ## ----eda-plot-qq-log-features, echo=FALSE-------------------------------------
 log_qq_data <- update_columns(qq_data, 2:4, function(x) log(x + 1))
@@ -138,9 +138,9 @@ plot_qq(
 )
 
 ## ----eda-plot-qq-by-template, eval=FALSE--------------------------------------
-#  qq_data <- final_data[, c("name_origin", "arr_delay", "air_time", "distance", "seats")]
-#  
-#  plot_qq(qq_data, by = "name_origin", sampled_rows = 1000L)
+# qq_data <- final_data[, c("name_origin", "arr_delay", "air_time", "distance", "seats")]
+# 
+# plot_qq(qq_data, by = "name_origin", sampled_rows = 1000L)
 
 ## ----eda-plot-qq-by, echo=FALSE, fig.width=8, fig.height=8--------------------
 qq_data <- final_data[, c("name_origin", "arr_delay", "air_time", "distance", "seats")]
@@ -158,8 +158,8 @@ plot_qq(
 plot_correlation(na.omit(final_data), maxcat = 5L)
 
 ## ----eda-plot-correlation-type, eval=FALSE------------------------------------
-#  plot_correlation(na.omit(final_data), type = "c")
-#  plot_correlation(na.omit(final_data), type = "d")
+# plot_correlation(na.omit(final_data), type = "c")
+# plot_correlation(na.omit(final_data), type = "d")
 
 ## ----eda-plot-prcomp, fig.width=8, fig.height=8-------------------------------
 pca_df <- na.omit(final_data[, c("origin", "dep_delay", "arr_delay", "air_time", "year_planes", "seats")])
@@ -167,20 +167,20 @@ pca_df <- na.omit(final_data[, c("origin", "dep_delay", "arr_delay", "air_time",
 plot_prcomp(pca_df, variance_cap = 0.9, nrow = 2L, ncol = 2L)
 
 ## ----eda-plot-boxplot-template, eval=FALSE------------------------------------
-#  ## Reduce data size for demo purpose
-#  arr_delay_df <- final_data[, c("arr_delay", "month", "day", "hour", "minute", "dep_delay", "distance", "year_planes", "seats")]
-#  
-#  ## Call boxplot function
-#  plot_boxplot(arr_delay_df, by = "arr_delay")
+# ## Reduce data size for demo purpose
+# arr_delay_df <- final_data[, c("arr_delay", "month", "day", "hour", "minute", "dep_delay", "distance", "year_planes", "seats")]
+# 
+# ## Call boxplot function
+# plot_boxplot(arr_delay_df, by = "arr_delay")
 
 ## ----eda-plot-boxplot, echo=FALSE, fig.width=8, fig.height=8------------------
 arr_delay_df <- final_data[, c("arr_delay", "month", "day", "hour", "minute", "dep_delay", "distance", "year_planes", "seats")]
 plot_boxplot(arr_delay_df, by = "arr_delay", geom_boxplot_args = list("na.rm" = TRUE), nrow = 3L, ncol = 3L)
 
 ## ----eda-plot-scatterplot-template, eval=FALSE--------------------------------
-#  arr_delay_df2 <- final_data[, c("arr_delay", "dep_time", "dep_delay", "arr_time", "air_time", "distance", "year_planes", "seats")]
-#  
-#  plot_scatterplot(arr_delay_df2, by = "arr_delay", sampled_rows = 1000L)
+# arr_delay_df2 <- final_data[, c("arr_delay", "dep_time", "dep_delay", "arr_time", "air_time", "distance", "year_planes", "seats")]
+# 
+# plot_scatterplot(arr_delay_df2, by = "arr_delay", sampled_rows = 1000L)
 
 ## ----eda-plot-scatterplot, echo=FALSE, fig.width=8, fig.height=8--------------
 arr_delay_df2 <- final_data[, c("arr_delay", "dep_time", "dep_delay", "arr_time", "air_time", "distance", "year_planes", "seats")]
@@ -212,12 +212,12 @@ final_df <- group_category(data = final_data, feature = "name_carrier", threshol
 plot_bar(final_df$name_carrier)
 
 ## ----fe-dummify-template, eval=FALSE------------------------------------------
-#  plot_str(
-#    list(
-#      "original" = final_data,
-#      "dummified" = dummify(final_data, maxcat = 5L)
-#    )
-#  )
+# plot_str(
+#   list(
+#     "original" = final_data,
+#     "dummified" = dummify(final_data, maxcat = 5L)
+#   )
+# )
 
 ## ----fe-dummify-run, echo=FALSE-----------------------------------------------
 diagonalNetwork(
@@ -249,10 +249,10 @@ transformed_data <- update_columns(final_data, "seats", bin_seat)
 plot_bar(transformed_data$seats)
 
 ## ----dr-create-report, eval=FALSE---------------------------------------------
-#  create_report(final_data)
+# create_report(final_data)
 
 ## ----dr-create-report-with-y, eval=FALSE--------------------------------------
-#  create_report(final_data, y = "arr_delay")
+# create_report(final_data, y = "arr_delay")
 
 ## ----dr-configure-report------------------------------------------------------
 configure_report(
@@ -265,35 +265,35 @@ configure_report(
 )
 
 ## ----dr-create-report-customize, eval=FALSE-----------------------------------
-#  config <- configure_report(
-#    add_plot_str = FALSE,
-#    add_plot_qq = FALSE,
-#    add_plot_prcomp = FALSE,
-#    add_plot_boxplot = FALSE,
-#    add_plot_scatterplot = FALSE,
-#    global_ggtheme = quote(theme_minimal(base_size = 14))
-#  )
-#  create_report(final_data, config = config)
+# config <- configure_report(
+#   add_plot_str = FALSE,
+#   add_plot_qq = FALSE,
+#   add_plot_prcomp = FALSE,
+#   add_plot_boxplot = FALSE,
+#   add_plot_scatterplot = FALSE,
+#   global_ggtheme = quote(theme_minimal(base_size = 14))
+# )
+# create_report(final_data, config = config)
 
 ## ----dr-configure-report-customize, eval=FALSE--------------------------------
-#  config <- list(
-#    "introduce" = list(),
-#    "plot_intro" = list(),
-#    "plot_str" = list(
-#      "type" = "diagonal",
-#      "fontSize" = 35,
-#      "width" = 1000,
-#      "margin" = list("left" = 350, "right" = 250)
-#    ),
-#    "plot_missing" = list(),
-#    "plot_histogram" = list(),
-#    "plot_density" = list(),
-#    "plot_qq" = list(sampled_rows = 1000L),
-#    "plot_bar" = list(),
-#    "plot_correlation" = list("cor_args" = list("use" = "pairwise.complete.obs")),
-#    "plot_prcomp" = list(),
-#    "plot_boxplot" = list(),
-#    "plot_scatterplot" = list(sampled_rows = 1000L)
-#  )
-#  create_report(final_data, config = config)
+# config <- list(
+#   "introduce" = list(),
+#   "plot_intro" = list(),
+#   "plot_str" = list(
+#     "type" = "diagonal",
+#     "fontSize" = 35,
+#     "width" = 1000,
+#     "margin" = list("left" = 350, "right" = 250)
+#   ),
+#   "plot_missing" = list(),
+#   "plot_histogram" = list(),
+#   "plot_density" = list(),
+#   "plot_qq" = list(sampled_rows = 1000L),
+#   "plot_bar" = list(),
+#   "plot_correlation" = list("cor_args" = list("use" = "pairwise.complete.obs")),
+#   "plot_prcomp" = list(),
+#   "plot_boxplot" = list(),
+#   "plot_scatterplot" = list(sampled_rows = 1000L)
+# )
+# create_report(final_data, config = config)
 
